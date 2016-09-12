@@ -1,6 +1,8 @@
 package hourEngineEditor.core;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -47,7 +49,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		{
 			Color c = Color.red;
 			
-			c = new Color(Math.min(c.getRed()+100, 255), Math.min(c.getGreen()+100, 255), Math.min(c.getBlue()+100, 255));
+			c = new Color(Math.min(c.getRed()+50, 255), Math.min(c.getGreen()+50, 255), Math.min(c.getBlue()+50, 255), 100);
 			g2d.setColor(c);
 			g2d.fillRect(x * w, y * w, w, w);
 		}
@@ -67,7 +69,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		{
 			Color c = Color.yellow;
 			
-			c = new Color(Math.min(c.getRed()+100, 255), Math.min(c.getGreen()+100, 255), Math.min(c.getBlue()+100, 255));
+			c = new Color(Math.min(c.getRed()+50, 255), Math.min(c.getGreen()+50, 255), Math.min(c.getBlue()+50, 255), 100);
 			g2d.setColor(c);
 			g2d.fillRect(x * w, y * w, w, w);
 		}
@@ -85,8 +87,10 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		@Override
 		public void drawLight(int x, int y, int w, Graphics2D g2d)
 		{
-			// TODO Auto-generated method stub
-			
+			Composite c = g2d.getComposite();
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+			g2d.drawImage(i, x*w, y*w, w, w, null);
+			g2d.setComposite(c);
 		}
 	};
 	ArrayList<Brush> brushes = new ArrayList<Brush>();
@@ -168,14 +172,17 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 					
 			}
 		}
-		g2d.setColor(Color.black);
-		for(int i = 0; i < ((Main.level.xSize * zoom) + zoom); i+=zoom)
+		if(Main.grid)
 		{
-			g2d.drawLine(i, 0, i, (Main.level.ySize * zoom));
-		}
-		for(int i = 0; i < ((Main.level.ySize * zoom) + zoom); i+=zoom)
-		{
-			g2d.drawLine(0, i, (Main.level.xSize * zoom), i);
+			g2d.setColor(Color.black);
+			for(int i = 0; i < ((Main.level.xSize * zoom) + zoom); i+=zoom)
+			{
+				g2d.drawLine(i, 0, i, (Main.level.ySize * zoom));
+			}
+			for(int i = 0; i < ((Main.level.ySize * zoom) + zoom); i+=zoom)
+			{
+				g2d.drawLine(0, i, (Main.level.xSize * zoom), i);
+			}
 		}
 		
 	}
@@ -309,7 +316,6 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		ry = arg0.getY();
 		int old = zoom;
 		zoom -= arg0.getWheelRotation();
-		int change = zoom - old;
 		//System.out.println(x);
 		float ratio = (float)zoom/(float)old;
 		

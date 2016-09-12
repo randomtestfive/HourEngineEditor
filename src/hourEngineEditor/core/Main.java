@@ -6,9 +6,7 @@ import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -21,6 +19,7 @@ public class Main
 	static JFrame frame;
 	public static int brush = 0;
 	public static int brushSize = 1;
+	public static boolean grid = true;
 	static boolean render = true;
 	public static TextureLoader tl;
 	

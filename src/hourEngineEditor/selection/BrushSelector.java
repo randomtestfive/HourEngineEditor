@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -42,6 +43,18 @@ public class BrushSelector extends JPanel
 		JPanel size = new JPanel();
 		size.add(new JLabel("Size:"));
 		size.add(spin);
+		size.add(new JLabel("Grid:"));
+		JCheckBox grid = new JCheckBox();
+		grid.setSelected(true);
+		grid.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent arg0)
+			{
+				Main.grid = grid.isSelected();
+			}	
+		});
+		size.add(grid);
 		this.add(size);
 		AddButtonPair("Remove", "Add", 0, 1, this);
 		AddButtonPair("Yellow", "Something", 2, 3, this);
