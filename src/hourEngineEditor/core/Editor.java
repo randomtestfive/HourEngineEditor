@@ -241,8 +241,6 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			drag = true;
 			start = true;
 		}
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
