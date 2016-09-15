@@ -16,7 +16,7 @@ public class Level
 	
 	public void setCollide(int x, int y, int val)
 	{
-		if(x >= xSize || y >= xSize)
+		if(x >= xSize || y >= ySize)
 		{
 			return;
 		}
@@ -55,7 +55,7 @@ public class Level
 	
 	public int getCollide(int x, int y)
 	{
-		if(x > xSize || y > xSize)
+		if(x > xSize || y > ySize)
 		{
 			return 0;
 		}
