@@ -111,7 +111,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			{
 				if(Main.level.getCollide(x, y)!=0 && brushes.size()+1 > Main.level.getCollide(x, y))
 				{
-					brushes.get(Main.level.getCollide(x, y)-1).draw(x, y, zoom, g2d);;
+					brushes.get(Main.level.getCollide(x, y)-1).draw(x, y, zoom, g2d);
 				}
 			}
 		}
@@ -310,22 +310,25 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0)
 	{
-		x = arg0.getX() - camerax;
-		y = arg0.getY() - cameray;
-		rx = arg0.getX();
-		ry = arg0.getY();
-		int old = zoom;
-		zoom -= arg0.getWheelRotation();
-		//System.out.println(x);
-		float ratio = (float)zoom/(float)old;
-		
-		double testx = (rcamerax-rx) * ratio;
-		rcamerax = (rx+testx);
-		double testy = (rcameray-ry) * ratio;
-		rcameray = (ry+testy);
-		x = arg0.getX() - camerax;
-		y = arg0.getY() - cameray;
-		rx = arg0.getX();
-		ry = arg0.getY();
+		if(!(arg0.getWheelRotation() > 0 && zoom <= 5))
+		{
+			x = arg0.getX() - camerax;
+			y = arg0.getY() - cameray;
+			rx = arg0.getX();
+			ry = arg0.getY();
+			int old = zoom;
+			zoom -= arg0.getWheelRotation();
+			//System.out.println(x);
+			float ratio = (float)zoom/(float)old;
+			
+			double testx = (rcamerax-rx) * ratio;
+			rcamerax = (rx+testx);
+			double testy = (rcameray-ry) * ratio;
+			rcameray = (ry+testy);
+			x = arg0.getX() - camerax;
+			y = arg0.getY() - cameray;
+			rx = arg0.getX();
+			ry = arg0.getY();
+		}
 	}
 }
