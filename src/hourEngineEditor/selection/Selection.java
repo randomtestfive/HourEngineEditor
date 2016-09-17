@@ -13,5 +13,6 @@ public class Selection extends JPanel
 		this.add(new SizeSelector());
 		this.add(new BrushSelector());
 		this.add(new JPanel());
+		this.add(new Export());
 	}
 }

@@ -27,9 +27,12 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	
 	public Editor()
 	{
-		brushes.add(red);
-		brushes.add(yellow);
-		brushes.add(something);
+		//brushes.add(red);
+		//brushes.add(yellow);
+		//brushes.add(something);
+		brushes.add(new TileBrush(0));
+		brushes.add(new TileBrush(1));
+		brushes.add(new TileBrush(2));
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.addMouseWheelListener(this);

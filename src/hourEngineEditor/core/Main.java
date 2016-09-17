@@ -22,10 +22,12 @@ public class Main
 	public static boolean grid = true;
 	static boolean render = true;
 	public static TextureLoader tl;
+	public static Tileset tileset;
 	
 	public static void AddTextures()
 	{
 		tl.addMap("/textures/start.png", "something");
+		tl.addMap("/textures/tiletest.png", "tileset");
 		tl.loadTextures();
 	}
 	
@@ -33,6 +35,7 @@ public class Main
 	{
 		tl = new TextureLoader();
 		AddTextures();
+		tileset = new Tileset(tl.bTextureFromName("tileset"));
 		level = new Level(10, 10);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
