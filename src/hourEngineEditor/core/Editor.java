@@ -37,65 +37,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		this.addMouseMotionListener(this);
 		this.addMouseWheelListener(this);
 	}
-	
-	Brush red = new Brush()
-	{
-		@Override
-		public void draw(int x, int y, int w, Graphics2D g2d)
-		{
-			g2d.setColor(Color.red);
-			g2d.fillRect(x * w, y * w, w, w);
-		}
 
-		@Override
-		public void drawLight(int x, int y, int w, Graphics2D g2d)
-		{
-			Color c = Color.red;
-			
-			c = new Color(Math.min(c.getRed()+50, 255), Math.min(c.getGreen()+50, 255), Math.min(c.getBlue()+50, 255), 100);
-			g2d.setColor(c);
-			g2d.fillRect(x * w, y * w, w, w);
-		}
-	};
-	
-	Brush yellow = new Brush()
-	{
-		@Override
-		public void draw(int x, int y, int w, Graphics2D g2d)
-		{
-			g2d.setColor(Color.yellow);
-			g2d.fillRect(x * w, y * w, w, w);
-		}
-
-		@Override
-		public void drawLight(int x, int y, int w, Graphics2D g2d)
-		{
-			Color c = Color.yellow;
-			
-			c = new Color(Math.min(c.getRed()+50, 255), Math.min(c.getGreen()+50, 255), Math.min(c.getBlue()+50, 255), 100);
-			g2d.setColor(c);
-			g2d.fillRect(x * w, y * w, w, w);
-		}
-	};
-	
-	Brush something = new Brush()
-	{
-		Image i = Main.tl.textureFromName("something");
-		@Override
-		public void draw(int x, int y, int w, Graphics2D g2d)
-		{
-			g2d.drawImage(i, x*w, y*w, w, w, null);
-		}
-
-		@Override
-		public void drawLight(int x, int y, int w, Graphics2D g2d)
-		{
-			Composite c = g2d.getComposite();
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
-			g2d.drawImage(i, x*w, y*w, w, w, null);
-			g2d.setComposite(c);
-		}
-	};
 	ArrayList<Brush> brushes = new ArrayList<Brush>();
 	@Override
 	public void paint(Graphics g)
