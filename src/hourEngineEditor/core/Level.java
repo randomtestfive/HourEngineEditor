@@ -8,6 +8,7 @@ public class Level
 	public int xSize;
 	public int ySize;
 	private Map<Integer, Map<Integer, Integer>> collide = new LinkedHashMap<Integer, Map<Integer, Integer>>();
+	private Map<Integer, Map<Integer, Integer>>	rotate = new LinkedHashMap<Integer, Map<Integer, Integer>>();
 	public Level(int x, int y)
 	{
 		xSize = x;
@@ -30,6 +31,23 @@ public class Level
 		{
 			collide.put(x, new LinkedHashMap<Integer, Integer>());
 			collide.get(x).put(y, val);
+		}
+	}
+	
+	public void setRotate(int x, int y, int val)
+	{
+		if(x >= xSize || y >= ySize)
+		{
+			return;
+		}
+		if(rotate.get(x)!=null)
+		{
+			rotate.get(x).put(y, val);
+		}
+		else
+		{
+			rotate.put(x, new LinkedHashMap<Integer, Integer>());
+			rotate.get(x).put(y, val);
 		}
 	}
 	
@@ -74,6 +92,30 @@ public class Level
 		{
 			collide.get(x).put(y, 0);
 			return collide.get(x).get(y);
+		}
+	}
+	
+	public int getRotate(int x, int y)
+	{
+		if(x > xSize || y > ySize)
+		{
+			return 0;
+		}
+		
+		if(rotate.get(x)!=null && rotate.get(x).get(y)!=null)
+		{
+			return rotate.get(x).get(y);
+		}
+		else if(rotate.get(x)==null)
+		{
+			rotate.put(x, new LinkedHashMap<Integer, Integer>());
+			rotate.get(x).put(y, 0);
+			return rotate.get(x).get(y);
+		}
+		else
+		{
+			rotate.get(x).put(y, 0);
+			return rotate.get(x).get(y);
 		}
 	}
 }

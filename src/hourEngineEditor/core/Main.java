@@ -18,6 +18,8 @@ public class Main
 	public static Level level;
 	static JFrame frame;
 	public static int brush = 0;
+	public static int rotate = 0;
+	public static int flip = 0;
 	public static int brushSize = 1;
 	public static boolean grid = true;
 	static boolean render = true;

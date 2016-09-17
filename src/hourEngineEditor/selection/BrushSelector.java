@@ -21,6 +21,7 @@ import hourEngineEditor.core.Main;
 @SuppressWarnings("serial")
 public class BrushSelector extends JPanel
 {
+	Preview p;
 	public BrushSelector()
 	{
 		super();
@@ -56,8 +57,79 @@ public class BrushSelector extends JPanel
 		});
 		size.add(grid);
 		this.add(size);
-		AddButtonPair("Remove", "Add", 0, 1, this);
-		AddButtonPair("Yellow", "Something", 2, 3, this);
+		p = new Preview();
+		JButton remove = new JButton("Remove");
+		remove.setPreferredSize(new Dimension(70, 30));
+		remove.setMargin(new Insets(0, 0, 0, 0));
+		remove.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				Main.brush = 0;
+				enableAllButtons();
+				remove.setEnabled(false);
+				p.repaint();
+			}
+		});
+		JPanel buttons = new JPanel();
+		buttons.add(remove);
+		buttons.add(p);
+		add(buttons);
+		AddButtonPair("Square", "Slant", 1, 2, this);
+		AddButtonPair("B Slant", "T Slant", 3, 4, this);
+		JButton ccw = new JButton("CCW");
+		ccw.setPreferredSize(new Dimension(30, 30));
+		ccw.setMargin(new Insets(0, 0, 0, 0));
+		ccw.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(Main.rotate == 0) { Main.rotate = 3; p.repaint(); return; }
+				if(Main.rotate == 4) { Main.rotate = 7; p.repaint(); return; }
+				Main.rotate--;
+				p.repaint();
+			}
+		});
+		JButton flip = new JButton("Flip");
+		flip.setPreferredSize(new Dimension(40, 30));
+		flip.setMargin(new Insets(0, 0, 0, 0));
+		flip.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(Main.rotate > 3)
+				{
+					Main.rotate-=4;
+				}
+				else
+				{
+					Main.rotate+=4;
+				}
+				p.repaint();
+			}
+		});
+		JButton cw = new JButton("CW");
+		cw.setPreferredSize(new Dimension(30, 30));
+		cw.setMargin(new Insets(0, 0, 0, 0));
+		cw.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(Main.rotate == 3) { Main.rotate = 0; p.repaint(); return; }
+				if(Main.rotate == 7) { Main.rotate = 4; p.repaint(); return; }
+				Main.rotate++;
+				p.repaint();
+			}
+		});
+		JPanel buttons2 = new JPanel();
+		buttons2.add(ccw);
+		buttons2.add(flip);
+		buttons2.add(cw);
+		add(buttons2);
 	}
 	
 	public void enableAllButtons()
@@ -95,6 +167,7 @@ public class BrushSelector extends JPanel
 				Main.brush = num1;
 				enableAllButtons();
 				remove.setEnabled(false);
+				p.repaint();
 			}
 		});
 		add.addActionListener(new ActionListener()
@@ -105,6 +178,7 @@ public class BrushSelector extends JPanel
 				Main.brush = num2;
 				enableAllButtons();
 				add.setEnabled(false);
+				p.repaint();
 			}
 		});
 		add.setPreferredSize(new Dimension(70, 30));

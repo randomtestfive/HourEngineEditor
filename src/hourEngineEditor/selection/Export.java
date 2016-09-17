@@ -60,7 +60,7 @@ public class Export extends JPanel implements ActionListener
 				{
 					for(int x = 0; x < Main.level.xSize; x++)
 					{
-						out.append(l.getCollide(x, y) + ",");
+						out.append(l.getCollide(x, y) + ":" + l.getRotate(x, y) + ",");
 					}
 					out.append("\n");
 				}
@@ -96,8 +96,10 @@ public class Export extends JPanel implements ActionListener
 				    	int x = 0;
 				    	for (String in : line.split(","))
 				    	{
-				    		int tmp = Integer.parseInt(in);
-				    		l.setCollide(x, y, tmp);
+				    		int tmp1 = Integer.parseInt(in.split(":")[0]);
+				    		int tmp2 = Integer.parseInt(in.split(":")[1]);
+				    		l.setCollide(x, y, tmp1);
+				    		l.setRotate(x, y, tmp2);
 				    		x++;
 				    	}
 				    	y++;
