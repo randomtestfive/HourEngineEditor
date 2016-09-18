@@ -43,6 +43,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	@Override
 	public void paint(Graphics g)
 	{
+		
 		camerax = (int) rcamerax;
 		cameray = (int) rcameray;
 		Graphics2D g2d = (Graphics2D) g;
@@ -57,7 +58,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			{
 				if(Main.level.getCollide(x, y)!=0 && brushes.size()+1 > Main.level.getCollide(x, y))
 				{
-					brushes.get(Main.level.getCollide(x, y)-1).draw(x, y, zoom, Main.level.getRotate(x, y), g2d);
+					brushes.get(Main.level.getCollide(x, y)-1).draw(x, y, zoom, Main.level.getRotate(x, y), Main.level.getTileset(x, y), g2d);
 				}
 			}
 		}
@@ -67,29 +68,29 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			{
 				if(Main.brushSize >= 1)
 				{
-					brushes.get(Main.brush-1).drawLight(x/zoom, y/zoom, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight(x/zoom, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
 				}
 				if(Main.brushSize >= 2)
 				{
 					if(x>zoom-1)
-					brushes.get(Main.brush-1).drawLight((x/zoom)-1, y/zoom, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)-1, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
 					if(x<((Main.level.xSize-1) * zoom))
-					brushes.get(Main.brush-1).drawLight((x/zoom)+1, y/zoom, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)+1, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
 					if(y>zoom-1)
-					brushes.get(Main.brush-1).drawLight(x/zoom, (y/zoom)-1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight(x/zoom, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
 					if(y<((Main.level.ySize-1) * zoom))
-					brushes.get(Main.brush-1).drawLight(x/zoom, (y/zoom)+1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight(x/zoom, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
 				}
 				if(Main.brushSize >= 3)
 				{
 					if(x>zoom-1 && y>zoom-1)
-					brushes.get(Main.brush-1).drawLight((x/zoom)-1, (y/zoom)-1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)-1, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
 					if(x<((Main.level.xSize-1) * zoom) && y<((Main.level.ySize-1) * zoom))
-					brushes.get(Main.brush-1).drawLight((x/zoom)+1, (y/zoom)+1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)+1, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
 					if(x<((Main.level.xSize-1) * zoom) && y>zoom-1)
-					brushes.get(Main.brush-1).drawLight((x/zoom)+1, (y/zoom)-1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)+1, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
 					if(x>zoom-1 && y<((Main.level.ySize-1) * zoom))
-					brushes.get(Main.brush-1).drawLight((x/zoom)-1, (y/zoom)+1, zoom, Main.rotate, g2d);
+					brushes.get(Main.brush-1).drawLight((x/zoom)-1, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
 				}
 			}
 			if(Main.brush == 0)
@@ -130,7 +131,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 				g2d.drawLine(0, i, (Main.level.xSize * zoom), i);
 			}
 		}
-		
+		g2d.dispose();
 	}
 
 	@Override
@@ -164,10 +165,12 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 				if(Main.brush!=0)
 				{
 					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.rotate);
+					Main.level.setTileset((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.tileset);
 				}
 				else
 				{
 					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, 0);
+					Main.level.setTileset((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, 0);
 				}
 			}
 			if(Main.brushSize >= 2)

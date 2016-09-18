@@ -7,12 +7,14 @@ import java.util.ArrayList;
 
 public class Tileset
 {
-	BufferedImage tileset;
+	public BufferedImage tileset;
 	public ArrayList<BufferedImage> tiles = new ArrayList<BufferedImage>();
 	int tilesize;
-	public Tileset(BufferedImage bi)
+	public String n;
+	public Tileset(BufferedImage bi, String name)
 	{
 		tileset = bi;
+		n = name;
 		tilesize = new Color(tileset.getRGB(0, 0)).getRed();
 		for(int i = 0; i < 4; i++)
 		tiles.add(tileset.getSubimage(tilesize+(tilesize*i), 0, tilesize, tilesize));

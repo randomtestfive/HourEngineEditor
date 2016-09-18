@@ -21,7 +21,7 @@ import hourEngineEditor.core.Main;
 @SuppressWarnings("serial")
 public class BrushSelector extends JPanel
 {
-	Preview p;
+	public static Preview p;
 	public BrushSelector()
 	{
 		super();

@@ -12,6 +12,8 @@ public class Selection extends JPanel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(new SizeSelector());
 		this.add(new BrushSelector());
+		this.add(new TilesetSelector());
+		this.add(new Shift());
 		this.add(new JPanel());
 		this.add(new Export());
 	}

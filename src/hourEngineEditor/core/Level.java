@@ -9,6 +9,7 @@ public class Level
 	public int ySize;
 	private Map<Integer, Map<Integer, Integer>> collide = new LinkedHashMap<Integer, Map<Integer, Integer>>();
 	private Map<Integer, Map<Integer, Integer>>	rotate = new LinkedHashMap<Integer, Map<Integer, Integer>>();
+	private Map<Integer, Map<Integer, Integer>>	tileset = new LinkedHashMap<Integer, Map<Integer, Integer>>();
 	public Level(int x, int y)
 	{
 		xSize = x;
@@ -17,37 +18,58 @@ public class Level
 	
 	public void setCollide(int x, int y, int val)
 	{
-		if(x >= xSize || y >= ySize)
-		{
-			return;
-		}
-		if(collide.get(x)!=null)
-		{
-			//System.out.println(x + " " + y);
-			collide.get(x).put(y, val);
-			//System.out.println(collide.get(x).get(y));
-		}
-		else
-		{
-			collide.put(x, new LinkedHashMap<Integer, Integer>());
-			collide.get(x).put(y, val);
-		}
+		collide = setProperty(x, y, val, collide);
 	}
 	
 	public void setRotate(int x, int y, int val)
 	{
-		if(x >= xSize || y >= ySize)
+		rotate = setProperty(x, y, val, rotate);
+	}
+	
+	public void setTileset(int x, int y, int val)
+	{
+		tileset = setProperty(x, y, val, tileset);
+	}
+	
+	private Map<Integer, Map<Integer, Integer>> setProperty(int x, int y, int val, Map<Integer, Map<Integer, Integer>> map)
+	{
+		if(x >= xSize || y >= ySize || x < 0 || y < 0)
 		{
-			return;
+			return map;
 		}
-		if(rotate.get(x)!=null)
+		if(map.get(x)!=null)
 		{
-			rotate.get(x).put(y, val);
+			map.get(x).put(y, val);
 		}
 		else
 		{
-			rotate.put(x, new LinkedHashMap<Integer, Integer>());
-			rotate.get(x).put(y, val);
+			map.put(x, new LinkedHashMap<Integer, Integer>());
+			map.get(x).put(y, val);
+		}
+		return map;
+	}
+	
+	private int getProperty(int x, int y, Map<Integer, Map<Integer, Integer>> map)
+	{
+		if(x > xSize || y > ySize)
+		{
+			return 0;
+		}
+		
+		if(map.get(x)!=null && map.get(x).get(y)!=null)
+		{
+			return map.get(x).get(y);
+		}
+		else if(map.get(x)==null)
+		{
+			map.put(x, new LinkedHashMap<Integer, Integer>());
+			map.get(x).put(y, 0);
+			return map.get(x).get(y);
+		}
+		else
+		{
+			map.get(x).put(y, 0);
+			return map.get(x).get(y);
 		}
 	}
 	
@@ -73,49 +95,16 @@ public class Level
 	
 	public int getCollide(int x, int y)
 	{
-		if(x > xSize || y > ySize)
-		{
-			return 0;
-		}
-		
-		if(collide.get(x)!=null && collide.get(x).get(y)!=null)
-		{
-			return collide.get(x).get(y);
-		}
-		else if(collide.get(x)==null)
-		{
-			collide.put(x, new LinkedHashMap<Integer, Integer>());
-			collide.get(x).put(y, 0);
-			return collide.get(x).get(y);
-		}
-		else
-		{
-			collide.get(x).put(y, 0);
-			return collide.get(x).get(y);
-		}
+		return getProperty(x, y, collide);
 	}
 	
 	public int getRotate(int x, int y)
 	{
-		if(x > xSize || y > ySize)
-		{
-			return 0;
-		}
-		
-		if(rotate.get(x)!=null && rotate.get(x).get(y)!=null)
-		{
-			return rotate.get(x).get(y);
-		}
-		else if(rotate.get(x)==null)
-		{
-			rotate.put(x, new LinkedHashMap<Integer, Integer>());
-			rotate.get(x).put(y, 0);
-			return rotate.get(x).get(y);
-		}
-		else
-		{
-			rotate.get(x).put(y, 0);
-			return rotate.get(x).get(y);
-		}
+		return getProperty(x, y, rotate);
+	}
+	
+	public int getTileset(int x, int y)
+	{
+		return getProperty(x, y, tileset);
 	}
 }

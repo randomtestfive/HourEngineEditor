@@ -5,6 +5,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -21,10 +22,11 @@ public class Main
 	public static int rotate = 0;
 	public static int flip = 0;
 	public static int brushSize = 1;
+	public static ArrayList<Tileset> tilesets = new ArrayList<Tileset>();
 	public static boolean grid = true;
 	static boolean render = true;
 	public static TextureLoader tl;
-	public static Tileset tileset;
+	public static int tileset;
 	
 	public static void AddTextures()
 	{
@@ -37,7 +39,8 @@ public class Main
 	{
 		tl = new TextureLoader();
 		AddTextures();
-		tileset = new Tileset(tl.bTextureFromName("tileset"));
+		tilesets.add(new Tileset(tl.bTextureFromName("tileset"), "Default"));
+		tileset = 0;
 		level = new Level(10, 10);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
