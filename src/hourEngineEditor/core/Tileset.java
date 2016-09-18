@@ -16,7 +16,7 @@ public class Tileset
 		tileset = bi;
 		n = name;
 		tilesize = new Color(tileset.getRGB(0, 0)).getRed();
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 5; i++)
 		tiles.add(tileset.getSubimage(tilesize+(tilesize*i), 0, tilesize, tilesize));
 	}
 }

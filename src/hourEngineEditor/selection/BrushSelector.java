@@ -58,7 +58,7 @@ public class BrushSelector extends JPanel
 		size.add(grid);
 		this.add(size);
 		p = new Preview();
-		JButton remove = new JButton("Remove");
+		JButton remove = new JButton("Tile Painter");
 		remove.setPreferredSize(new Dimension(70, 30));
 		remove.setMargin(new Insets(0, 0, 0, 0));
 		remove.addActionListener(new ActionListener()
@@ -66,8 +66,9 @@ public class BrushSelector extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				Main.brush = 0;
+				//Main.brush = 0;
 				enableAllButtons();
+				Main.tilePainter = true;
 				remove.setEnabled(false);
 				p.repaint();
 			}
@@ -76,8 +77,9 @@ public class BrushSelector extends JPanel
 		buttons.add(remove);
 		buttons.add(p);
 		add(buttons);
-		AddButtonPair("Square", "Slant", 1, 2, this);
-		AddButtonPair("B Slant", "T Slant", 3, 4, this);
+		AddButtonPair("Remove", "Square", 0, 1, this);
+		AddButtonPair("Slant", "B Slant", 2, 3, this);
+		AddButtonPair("T Slant", "Half", 4, 5, this);
 		JButton ccw = new JButton("CCW");
 		ccw.setPreferredSize(new Dimension(30, 30));
 		ccw.setMargin(new Insets(0, 0, 0, 0));
@@ -137,7 +139,7 @@ public class BrushSelector extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println(Main.rotate);
+				//System.out.println(Main.rotate);
 				if(Main.rotate <= 3)
 				{
 					if(Main.rotate == 0 || Main.rotate == 2)
@@ -168,7 +170,7 @@ public class BrushSelector extends JPanel
 						Main.rotate = 1;
 					}
 				}
-				System.out.println(Main.rotate);
+				//System.out.println(Main.rotate);
 				p.repaint();
 			}
 		});
@@ -196,6 +198,7 @@ public class BrushSelector extends JPanel
 	
 	public void enableAllButtons()
 	{
+		Main.tilePainter = false;
 		for(Component c : this.getComponents())
 		{
 			if(c instanceof JPanel)

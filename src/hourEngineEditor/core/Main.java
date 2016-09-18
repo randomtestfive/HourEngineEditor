@@ -22,6 +22,7 @@ public class Main
 	public static int rotate = 0;
 	public static int flip = 0;
 	public static int brushSize = 1;
+	public static boolean tilePainter = false;
 	public static ArrayList<Tileset> tilesets = new ArrayList<Tileset>();
 	public static boolean grid = true;
 	static boolean render = true;

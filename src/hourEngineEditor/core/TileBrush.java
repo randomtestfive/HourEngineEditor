@@ -56,7 +56,7 @@ public class TileBrush extends Brush
 	@Override
 	public void drawLight(int x, int y, int w, int r, int t, Graphics2D g2d)
 	{
-		System.out.println(Main.tileset);
+		//System.out.println(Main.tileset);
 		if(!tiles.containsKey(t))
 		{
 			addNewTileset(Main.tilesets.get(t), t);

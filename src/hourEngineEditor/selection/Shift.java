@@ -76,6 +76,7 @@ public class Shift extends JPanel
 			{
 				tmp.setCollide(x, y-1, n.getCollide(x, y));
 				tmp.setRotate(x, y-1, n.getRotate(x, y));
+				tmp.setTileset(x, y-1, n.getTileset(x, y));
 			}
 		}
 		Main.level = tmp;
@@ -91,6 +92,7 @@ public class Shift extends JPanel
 			{
 				tmp.setCollide(x, y+1, n.getCollide(x, y));
 				tmp.setRotate(x, y+1, n.getRotate(x, y));
+				tmp.setTileset(x, y+1, n.getTileset(x, y));
 			}
 		}
 		Main.level = tmp;
@@ -106,6 +108,7 @@ public class Shift extends JPanel
 			{
 				tmp.setCollide(x-1, y, n.getCollide(x, y));
 				tmp.setRotate(x-1, y, n.getRotate(x, y));
+				tmp.setTileset(x-1, y, n.getTileset(x, y));
 			}
 		}
 		Main.level = tmp;
@@ -121,6 +124,7 @@ public class Shift extends JPanel
 			{
 				tmp.setCollide(x+1, y, n.getCollide(x, y));
 				tmp.setRotate(x+1, y, n.getRotate(x, y));
+				tmp.setTileset(x+1, y, n.getTileset(x, y));
 			}
 		}
 		Main.level = tmp;

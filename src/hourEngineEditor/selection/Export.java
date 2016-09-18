@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import hourEngineEditor.core.Editor;
 import hourEngineEditor.core.Level;
 import hourEngineEditor.core.Main;
 import hourEngineEditor.core.Tileset;
@@ -118,7 +119,7 @@ public class Export extends JPanel implements ActionListener
 				    	l = new Level(Integer.parseInt(size.split("x")[0]), Integer.parseInt(size.split("x")[1]));
 				    	tilesets = Integer.parseInt(ts);
 				    }
-				    System.out.println(tilesets);
+				    //System.out.println(tilesets);
 				    ArrayList<Tileset> tiletmp = new ArrayList<Tileset>();
 				    String[] names = new String[tilesets];
 				    for(int i = 0; i < tilesets; i++)
@@ -126,14 +127,14 @@ public class Export extends JPanel implements ActionListener
 				    	if((line = br.readLine()) != null)
 				    	{
 				    		File tmpfile = new File(file.getParent() + "/" + line + ".png");
-				    		System.out.println(tmpfile.getAbsolutePath());
+				    		//System.out.println(tmpfile.getAbsolutePath());
 				    		BufferedImage in = ImageIO.read(tmpfile);
 							tiletmp.add(new Tileset(in, line));
 							names[i] = line;
 							
 				    	}
 				    }
-				    System.out.println(tiletmp.size());
+				    //System.out.println(tiletmp.size());
 			    	Main.tilesets = tiletmp;
 			    	DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(names);
 			    	TilesetSelector.cb.setModel(model);
@@ -159,6 +160,7 @@ public class Export extends JPanel implements ActionListener
 				{
 					e.printStackTrace();
 				}
+				Editor.reloadBrushes();
 			}
 		}
 	}

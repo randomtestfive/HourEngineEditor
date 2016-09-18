@@ -24,6 +24,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	int camerax = 0;
 	int cameray = 0;
 	int zoom = 30;
+	TileChangeBrush changebrush;
 	
 	public Editor()
 	{
@@ -34,9 +35,19 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		brushes.add(new TileBrush(1));
 		brushes.add(new TileBrush(2));
 		brushes.add(new TileBrush(3));
+		brushes.add(new TileBrush(4));
+		changebrush = new TileChangeBrush();
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.addMouseWheelListener(this);
+	}
+	
+	public static void reloadBrushes()
+	{
+		for(int i = 0; i < brushes.size(); i++)
+		{
+			brushes.set(i, new TileBrush(i));
+		}
 	}
 
 	public static ArrayList<Brush> brushes = new ArrayList<Brush>();
@@ -64,8 +75,9 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		}
 		if(x < Main.level.xSize * zoom && y < Main.level.ySize * zoom && x>0 && y>0 && !start)
 		{
-			if(Main.brush != 0 && brushes.size()+1 > Main.brush)
+			if(Main.brush != 0 && brushes.size()+1 > Main.brush && !Main.tilePainter)
 			{
+				//System.out.println("ungr");
 				if(Main.brushSize >= 1)
 				{
 					brushes.get(Main.brush-1).drawLight(x/zoom, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
@@ -93,7 +105,8 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 					brushes.get(Main.brush-1).drawLight((x/zoom)-1, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
 				}
 			}
-			if(Main.brush == 0)
+			
+			if(Main.brush == 0 && !Main.tilePainter)
 			{
 				if(Main.brushSize >= 1)
 				{
@@ -117,6 +130,36 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 					g2d.fillRect(((int)(x/zoom)+1)*zoom, ((int)(y/zoom)-1)*zoom, zoom, zoom);
 				}
 					
+			}
+			if(Main.tilePainter)
+			{
+				//System.out.println("gr");
+				if(Main.brushSize >= 1)
+				{
+					changebrush.drawLight(x/zoom, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
+				}
+				if(Main.brushSize >= 2)
+				{
+					if(x>zoom-1)
+						changebrush.drawLight((x/zoom)-1, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
+					if(x<((Main.level.xSize-1) * zoom))
+						changebrush.drawLight((x/zoom)+1, y/zoom, zoom, Main.rotate, Main.tileset, g2d);
+					if(y>zoom-1)
+						changebrush.drawLight(x/zoom, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
+					if(y<((Main.level.ySize-1) * zoom))
+						changebrush.drawLight(x/zoom, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
+				}
+				if(Main.brushSize >= 3)
+				{
+					if(x>zoom-1 && y>zoom-1)
+						changebrush.drawLight((x/zoom)-1, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
+					if(x<((Main.level.xSize-1) * zoom) && y<((Main.level.ySize-1) * zoom))
+						changebrush.drawLight((x/zoom)+1, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
+					if(x<((Main.level.xSize-1) * zoom) && y>zoom-1)
+						changebrush.drawLight((x/zoom)+1, (y/zoom)-1, zoom, Main.rotate, Main.tileset, g2d);
+					if(x>zoom-1 && y<((Main.level.ySize-1) * zoom))
+						changebrush.drawLight((x/zoom)-1, (y/zoom)+1, zoom, Main.rotate, Main.tileset, g2d);
+				}
 			}
 		}
 		if(Main.grid)
@@ -159,63 +202,10 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	{
 		if(arg0.getButton() == 1)
 		{
-			if(Main.brushSize >= 1)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.rotate);
-					Main.level.setTileset((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.tileset);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, 0);
-					Main.level.setTileset((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, 0);
-				}
-			}
-			if(Main.brushSize >= 2)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, 0);
-				}
-			}
-			if(Main.brushSize >= 3)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, 0);
-				}
-			}
-			
+			if(Main.tilePainter)
+				brushTileset(arg0.getX(), arg0.getY());
+			else
+				brush(arg0.getX(), arg0.getY());
 		}
 		else if(arg0.getButton() == 3)
 		{
@@ -251,60 +241,10 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		ry = arg0.getY();
 		if(SwingUtilities.isLeftMouseButton(arg0))
 		{
-			if(Main.brushSize >= 1)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, Main.rotate);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom, 0);
-				}
-			}
-			if(Main.brushSize >= 2)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom, (arg0.getY()-cameray)/zoom-1, 0);
-				}
-			}
-			if(Main.brushSize >= 3)
-			{
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				Main.level.setCollide((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, Main.brush);
-				if(Main.brush!=0)
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, Main.rotate);
-				}
-				else
-				{
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom+1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom-1, (arg0.getY()-cameray)/zoom-1, 0);
-					Main.level.setRotate((arg0.getX()-camerax)/zoom+1, (arg0.getY()-cameray)/zoom-1, 0);
-				}
-			}	
+			if(Main.tilePainter)
+				brushTileset(arg0.getX(), arg0.getY());
+			else
+				brush(arg0.getX(), arg0.getY());
 		}
 		if(SwingUtilities.isRightMouseButton(arg0))
 		{
@@ -336,7 +276,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			ry = arg0.getY();
 			int old = zoom;
 			zoom -= arg0.getWheelRotation();
-			//System.out.println(x);
+			//.println(x);
 			float ratio = (float)zoom/(float)old;
 			
 			double testx = (rcamerax-rx) * ratio;
@@ -347,6 +287,113 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 			y = arg0.getY() - cameray;
 			rx = arg0.getX();
 			ry = arg0.getY();
+		}
+	}
+	
+	public void brushTileset(int x, int y)
+	{
+		if(Main.brushSize >= 1)
+		{
+			if(Main.level.getCollide((x-camerax)/zoom, (y-cameray)/zoom)!=0)
+			Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom, Main.tileset);
+		}
+		if(Main.brushSize >= 2)
+		{
+			if(Main.level.getCollide((x-camerax)/zoom+1, (y-cameray)/zoom)!=0)
+			Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom-1, (y-cameray)/zoom)!=0)
+			Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom, (y-cameray)/zoom+1)!=0)
+			Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom+1, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom, (y-cameray)/zoom-1)!=0)
+			Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom-1, Main.tileset);
+		}
+		if(Main.brushSize >= 3)
+		{
+			if(Main.level.getCollide((x-camerax)/zoom+1, (y-cameray)/zoom+1)!=0)
+			Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom+1, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom-1, (y-cameray)/zoom+1)!=0)
+			Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom+1, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom-1, (y-cameray)/zoom-1)!=0)
+			Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom-1, Main.tileset);
+			if(Main.level.getCollide((x-camerax)/zoom+1, (y-cameray)/zoom-1)!=0)
+			Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom-1, Main.tileset);
+		}
+	}
+	
+	public void brush(int x, int y)
+	{
+		if(Main.brushSize >= 1)
+		{
+			Main.level.setCollide((x-camerax)/zoom, (y-cameray)/zoom, Main.brush);
+			if(Main.brush!=0)
+			{
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom, Main.rotate);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom, Main.tileset);
+			}
+			else
+			{
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom, 0);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom, 0);
+			}
+		}
+		if(Main.brushSize >= 2)
+		{
+			Main.level.setCollide((x-camerax)/zoom+1, (y-cameray)/zoom, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom-1, (y-cameray)/zoom, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom, (y-cameray)/zoom+1, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom, (y-cameray)/zoom-1, Main.brush);
+			if(Main.brush!=0)
+			{
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom+1, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom-1, Main.rotate);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom+1, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom-1, Main.tileset);
+			}
+			else
+			{
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom, 0);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom, 0);
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom+1, 0);
+				Main.level.setRotate((x-camerax)/zoom, (y-cameray)/zoom-1, 0);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom, 0);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom, 0);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom+1, 0);
+				Main.level.setTileset((x-camerax)/zoom, (y-cameray)/zoom-1, 0);
+			}
+		}
+		if(Main.brushSize >= 3)
+		{
+			Main.level.setCollide((x-camerax)/zoom+1, (y-cameray)/zoom+1, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom-1, (y-cameray)/zoom+1, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom-1, (y-cameray)/zoom-1, Main.brush);
+			Main.level.setCollide((x-camerax)/zoom+1, (y-cameray)/zoom-1, Main.brush);
+			if(Main.brush!=0)
+			{
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom+1, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom+1, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom-1, Main.rotate);
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom-1, Main.rotate);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom+1, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom+1, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom-1, Main.tileset);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom-1, Main.tileset);
+			}
+			else
+			{
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom+1, 0);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom+1, 0);
+				Main.level.setRotate((x-camerax)/zoom-1, (y-cameray)/zoom-1, 0);
+				Main.level.setRotate((x-camerax)/zoom+1, (y-cameray)/zoom-1, 0);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom+1, 0);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom+1, 0);
+				Main.level.setTileset((x-camerax)/zoom-1, (y-cameray)/zoom-1, 0);
+				Main.level.setTileset((x-camerax)/zoom+1, (y-cameray)/zoom-1, 0);
+			}
 		}
 	}
 }
