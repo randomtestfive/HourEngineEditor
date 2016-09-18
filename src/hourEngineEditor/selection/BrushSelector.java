@@ -92,22 +92,83 @@ public class BrushSelector extends JPanel
 				p.repaint();
 			}
 		});
-		JButton flip = new JButton("Flip");
-		flip.setPreferredSize(new Dimension(40, 30));
-		flip.setMargin(new Insets(0, 0, 0, 0));
-		flip.addActionListener(new ActionListener()
+		JButton hflip = new JButton("H Flip");
+		hflip.setPreferredSize(new Dimension(40, 30));
+		hflip.setMargin(new Insets(0, 0, 0, 0));
+		hflip.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(Main.rotate > 3)
+				if(Main.rotate <= 3)
 				{
-					Main.rotate-=4;
+					if(Main.rotate == 0 || Main.rotate == 2)
+					{
+						Main.rotate = (Main.rotate += 2) % 4 + 4;
+					}
+					else if(Main.rotate == 1 || Main.rotate == 3)
+					{
+						Main.rotate += 4;
+					}
 				}
 				else
 				{
-					Main.rotate+=4;
+					if(Main.rotate == 6)
+					{
+						Main.rotate = 0;
+					}
+					else if(Main.rotate == 4)
+					{
+						Main.rotate = 2;
+					}
+					else if(Main.rotate == 5 || Main.rotate == 7)
+					{
+						Main.rotate -= 4;
+					}
 				}
+				p.repaint();
+			}
+		});
+		JButton vflip = new JButton("V Flip");
+		vflip.setPreferredSize(new Dimension(40, 30));
+		vflip.setMargin(new Insets(0, 0, 0, 0));
+		vflip.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				System.out.println(Main.rotate);
+				if(Main.rotate <= 3)
+				{
+					if(Main.rotate == 0 || Main.rotate == 2)
+					{
+						Main.rotate += 4;
+					}
+					else if(Main.rotate == 1)
+					{
+						Main.rotate = 7;
+					}
+					else if(Main.rotate == 3)
+					{
+						Main.rotate = 5;
+					}
+				}
+				else
+				{
+					if(Main.rotate == 6 || Main.rotate == 4)
+					{
+						Main.rotate -= 4;
+					}
+					else if(Main.rotate == 5)
+					{
+						Main.rotate = 3;
+					}
+					else if(Main.rotate == 7)
+					{
+						Main.rotate = 1;
+					}
+				}
+				System.out.println(Main.rotate);
 				p.repaint();
 			}
 		});
@@ -127,7 +188,8 @@ public class BrushSelector extends JPanel
 		});
 		JPanel buttons2 = new JPanel();
 		buttons2.add(ccw);
-		buttons2.add(flip);
+		buttons2.add(hflip);
+		buttons2.add(vflip);
 		buttons2.add(cw);
 		add(buttons2);
 	}
