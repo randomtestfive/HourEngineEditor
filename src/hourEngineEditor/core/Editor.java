@@ -24,7 +24,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 	int camerax = 0;
 	int cameray = 0;
 	int zoom = 30;
-	TileChangeBrush changebrush;
+	public static TileChangeBrush changebrush;
 	
 	public Editor()
 	{

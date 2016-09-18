@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import hourEngineEditor.selection.BrushSelector;
+import hourEngineEditor.selection.TilesetSelector;
+
 public class TileChangeBrush extends Brush
 {
 
@@ -30,6 +33,7 @@ public class TileChangeBrush extends Brush
 	@Override
 	public void draw(int x, int y, int w, int r, int t, Graphics2D g2d)
 	{
+		BrushSelector.p.repaint();
 		int collide = Main.level.getCollide(x, y);
 		int rot = Main.level.getRotate(x, y);
 		if(collide !=0)
@@ -38,17 +42,17 @@ public class TileChangeBrush extends Brush
 			{
 				addNewTileset(Main.tilesets.get(t), t);
 			}
-			if(r<4)
+			if(rot<4)
 			{
-				g2d.drawImage(tiles.get(t)[collide][rot], x*w, y*w, w, w, null);
+				g2d.drawImage(tiles.get(t)[collide-1][rot], x*w, y*w, w, w, null);
 			}
 			else if(rot==4 || rot==6)
 			{
-				g2d.drawImage(tiles.get(t)[collide][rot%4], x*w, y*w+w, w, -w, null);
+				g2d.drawImage(tiles.get(t)[collide-1][rot%4], x*w, y*w+w, w, -w, null);
 			}
 			else
 			{
-				g2d.drawImage(tiles.get(t)[collide][rot%4], x*w+w, y*w, -w, w, null);
+				g2d.drawImage(tiles.get(t)[collide-1][rot%4], x*w+w, y*w, -w, w, null);
 			}
 		}
 	}

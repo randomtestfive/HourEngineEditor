@@ -26,7 +26,7 @@ public class Preview extends JPanel
 		g2d.setColor(Color.gray);
 		g2d.fillRect(0, 0, 32, 32);
 		if(Main.brush!=0)
-		Editor.brushes.get(Main.brush-1).draw(0, 0, 32, Main.rotate, Main.tileset, g2d);
+			Editor.brushes.get(Main.brush-1).draw(0, 0, 32, Main.rotate, Main.tileset, g2d);
 		g2d.setColor(Color.black);
 		g2d.drawRect(0, 0, 31, 31);
 	}
