@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import hourEngineEditor.core.Main;
-import hourEngineEditor.core.TextureLoader;
 import hourEngineEditor.core.Tileset;
 
 @SuppressWarnings("serial")

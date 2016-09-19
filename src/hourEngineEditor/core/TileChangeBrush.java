@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hourEngineEditor.selection.BrushSelector;
-import hourEngineEditor.selection.TilesetSelector;
 
 public class TileChangeBrush extends Brush
 {
