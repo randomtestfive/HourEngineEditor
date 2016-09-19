@@ -161,6 +161,8 @@ public class Export extends JPanel implements ActionListener
 					e.printStackTrace();
 				}
 				Editor.reloadBrushes();
+				SizeSelector.x.setText(Integer.toString(Main.level.xSize));
+				SizeSelector.y.setText(Integer.toString(Main.level.ySize));
 			}
 		}
 	}

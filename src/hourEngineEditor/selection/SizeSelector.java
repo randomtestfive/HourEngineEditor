@@ -15,6 +15,8 @@ import hourEngineEditor.core.Main;
 @SuppressWarnings("serial")
 public class SizeSelector extends JPanel
 {
+	public static JTextField x;
+	public static JTextField y;
 	public SizeSelector()
 	{
 		super();
@@ -26,9 +28,9 @@ public class SizeSelector extends JPanel
 		label.setVerticalAlignment(SwingConstants.CENTER);
 		label.setAlignmentX(0.5F);
 		this.add(label);
-		JTextField x = new JTextField(Integer.toString(Main.level.xSize));
+		x = new JTextField(Integer.toString(Main.level.xSize));
 		x.setPreferredSize(new Dimension(60, 20));
-		JTextField y = new JTextField(Integer.toString(Main.level.ySize));
+		y = new JTextField(Integer.toString(Main.level.ySize));
 		x.addActionListener(new ActionListener()
 		{
 			@Override
