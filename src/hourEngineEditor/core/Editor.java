@@ -45,6 +45,7 @@ public class Editor extends JPanel implements MouseListener, MouseMotionListener
 		{
 			brushes.set(i, new TileBrush(i));
 		}
+		changebrush = new TileChangeBrush();
 	}
 
 	public static ArrayList<Brush> brushes = new ArrayList<Brush>();
